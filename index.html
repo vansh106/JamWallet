@@ -1,41 +1,273 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
     <title>Document</title>
-</head>
-<body>
-    <ul class="nav nav-pills homenav" style="margin-left: 80%;">
-        <li class="nav-item">
-            <a class="nav-link" href="#idea">Basic Idea</a>
-        </li> 
-        <li class="nav-item" onclick="connectMetamask()">
-            <a class="nav-link active" href="#">Connect to Metamask</a></li>
-    </ul> <br><br><br>
-    <div class="card" id="idea" style="width: 80rem;">
-        <div class="card-body">
-            <h5 class="card-title"> JamWallet </h5>
-            <h6 class="card-subtitle mb-2 text-muted"> Idea </h6>
-            <p class="card-text"> Blockchain based transaction is the up and coming idea in the digital world and economy. A large number of accounts for transactions have been made however out of those accounts, some remain static due to inactivity of person, lose of private key, etc. This leads to loss of money due to the inaccessibility of these accounts. We propose a nominee system in order to retrieve lost money along with a brand new token “JamCoin”. 
-            </p>
-        </div>
-    </div><br><br>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"
+    ></script>
+  </head>
+
+  <body>
+    <ul class="nav nav-pills homenav" style="margin-left: 80%">
+      <li class="nav-item">
+        <a class="nav-link" href="#idea">Basic Idea</a>
+      </li>
+      <li class="nav-item" onclick="connectMetamask()">
+        <a class="nav-link active" href="#">Connect to Metamask</a>
+      </li>
+      <li class="nav-item" onclick="connectContract()">
+        <a class="nav-link active" href="#">Connect to contract</a>
+      </li>
+      <li class="nav-item" onclick="readContract()">
+        <a class="nav-link active" href="#">Buy jam</a>
+      </li>
+    </ul>
+    <br /><br /><br />
+    <div class="card" id="idea" style="width: 80rem">
+      <div class="card-body">
+        <h5 class="card-title">JamWallet</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Idea</h6>
+        <p class="card-text">
+          Blockchain based transaction is the up and coming idea in the digital
+          world and economy. A large number of accounts for transactions have
+          been made however out of those accounts, some remain static due to
+          inactivity of person, lose of private key, etc. This leads to loss of
+          money due to the inaccessibility of these accounts. We propose a
+          nominee system in order to retrieve lost money along with a brand new
+          token “JamCoin”.
+        </p>
+      </div>
+    </div>
+    <br /><br />
     <script>
-        let account;
-        const connectMetamask = async () => {
-            if(window.ethereum !== "undefined"){
-                const accounts = await ethereum.request({method: "eth_requestAccounts"});
-                account = accounts[0];
-                document.getElementById("accountArea").innerHTML = account;
-            }
+      let account;
+      const connectMetamask = async () => {
+        if (window.ethereum !== "undefined") {
+          const accounts = await ethereum.request({
+            method: "eth_requestAccounts",
+          });
+          account = accounts[0];
+          //   document.getElementById("accountArea").innerHTML = account;
+          console.log(account);
         }
+      };
+
+      const connectContract = async () => {
+        const ABI = [
+          {
+            anonymous: false,
+            inputs: [
+              {
+                indexed: true,
+                internalType: "address",
+                name: "tokenOwner",
+                type: "address",
+              },
+              {
+                indexed: true,
+                internalType: "address",
+                name: "spender",
+                type: "address",
+              },
+              {
+                indexed: false,
+                internalType: "uint256",
+                name: "tokens",
+                type: "uint256",
+              },
+            ],
+            name: "Approval",
+            type: "event",
+          },
+          {
+            anonymous: false,
+            inputs: [
+              {
+                indexed: true,
+                internalType: "address",
+                name: "from",
+                type: "address",
+              },
+              {
+                indexed: true,
+                internalType: "address",
+                name: "to",
+                type: "address",
+              },
+              {
+                indexed: false,
+                internalType: "uint256",
+                name: "tokens",
+                type: "uint256",
+              },
+            ],
+            name: "Transfer",
+            type: "event",
+          },
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "tokenOwner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "spender",
+                type: "address",
+              },
+            ],
+            name: "allowance",
+            outputs: [
+              {
+                internalType: "uint256",
+                name: "remaining",
+                type: "uint256",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "spender",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "tokens",
+                type: "uint256",
+              },
+            ],
+            name: "approve",
+            outputs: [
+              {
+                internalType: "bool",
+                name: "success",
+                type: "bool",
+              },
+            ],
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "tokenOwner",
+                type: "address",
+              },
+            ],
+            name: "balanceOf",
+            outputs: [
+              {
+                internalType: "uint256",
+                name: "balance",
+                type: "uint256",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            inputs: [],
+            name: "totalSupply",
+            outputs: [
+              {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "to",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "tokens",
+                type: "uint256",
+              },
+            ],
+            name: "transfer",
+            outputs: [
+              {
+                internalType: "bool",
+                name: "success",
+                type: "bool",
+              },
+            ],
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "from",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "to",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "tokens",
+                type: "uint256",
+              },
+            ],
+            name: "transferFrom",
+            outputs: [
+              {
+                internalType: "bool",
+                name: "success",
+                type: "bool",
+              },
+            ],
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+        ];
+        const Address = "0x5dfCDef578B3aEB9C6C3901C89D8527d4e4BA4c7";
+        window.web3 = await new Web3(window.ethereum);
+        window.contract = await new window.web3.eth.Contract(ABI, Address);
+
+        // document.getElementById("contractArea").innerHTML =
+        //   "connected to smart contract";
+        console.log("connected");
+      };
+
+      const readContract = async () => {
+        // const
+        const data = await window.contract.methods.balanceOf(account).call();
+
+        // const data2 = await window.contract.methods.burn(account).send({ from: account });
+        console.log(data);
+        // console.log(data2);
+        // document.getElementById("dataArea").innerHTML = data;
+      };
     </script>
 </body>
-=======
 <html>
 
 <head>
@@ -227,5 +459,6 @@
 
 </body>
 
->>>>>>> a54d33b... frontend progress
+</html>
+  </body>
 </html>
