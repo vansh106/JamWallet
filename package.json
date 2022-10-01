@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "contract-connect",
+=======
+  "name": "jamwallet",
+>>>>>>> a54d33b... frontend progress
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
