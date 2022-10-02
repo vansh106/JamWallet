@@ -45,6 +45,10 @@ The application contains the following folders:
 <img src = "https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white">
 <img src = "https://img.shields.io/badge/Canva-%2300C4CC.svg?&style=for-the-badge&logo=Canva&logoColor=white">
 
+## Ganache and Metamask
+It is imperative that you have Ganache Provider installed on your system before using this application. Also, connect your metamask to your Ganache accounts to smoothly simulate the blockchain network. Refer to the following site if you have trouble connecting these 2 applications:
+[How to Set-up Ganache with Metamask](https://www.geeksforgeeks.org/how-to-set-up-ganche-with-metamask/#:~:text=Ganache%20CLI,on%20the%20ganache%20blockchain%20successfully.)
+
 ## Downloading and Running the JAMWallet Project
 
 1. Once you have your NodeJS installed, download the  github repository. This can be done by running the following commands in your [VSCode](https://code.visualstudio.com/) terminal or [Hyper](https://hyper.is/).
